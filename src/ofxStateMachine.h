@@ -49,11 +49,16 @@ namespace Apex
 	template<class SharedData = ofxEmptyData>
 	class ofxStateMachine
 	{
-	public:
 		typedef shared_ptr< ofxState<SharedData> > statePtr;
 		typedef typename map<string, statePtr>::iterator stateIt;
+
+	public:
 		
 		ofxStateMachine()
+		{
+		}
+		
+		void enableEvents()
 		{
 			enableAppEvents();
 #ifdef TARGET_OPENGLES
@@ -94,14 +99,23 @@ namespace Apex
 		
 		void changeState(const string& name)
 		{
+			if (name == currentStateName) return;
+			
 			stateIt it = states.find(name);
 			if (it == states.end()) ofLog(OF_LOG_ERROR, "No state with name: %s.  Make sure you have added it to the state machine and you have set the state's name correctly.  Set the name by implementing \"const string getName()\" in your state class", name.c_str());
 			else if (it->second != currentState)
 			{
 				if (currentState) currentState->stateExit();
 				currentState = it->second;
+				
+				currentStateName = currentState->getName();
 				currentState->stateEnter();
 			}
+		}
+		
+		const string& getCurrentStateName() const
+		{
+			return currentState;
 		}
 		
 		/** App Event Stuff **/
@@ -125,6 +139,7 @@ namespace Apex
 			if (currentState) currentState->draw();
 			else ofLog(OF_LOG_WARNING, "State machine draw called with no state set");
 		}
+		
 		
 		/** Key Event Stuff **/
 		void enableKeyEvents()
@@ -179,6 +194,8 @@ namespace Apex
 		
 	private:
 		statePtr currentState;
+		string currentStateName;
+		
 		map<string, statePtr > states;
 		SharedData sharedData;
 	};
