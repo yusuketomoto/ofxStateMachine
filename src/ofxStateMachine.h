@@ -31,26 +31,19 @@
  */
 #pragma once
 
-#ifdef TARGET_WIN32
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
-#include <map>
-#include <string>
-#include <iostream>
+#include "ofMain.h"
 #include "ofxState.h"
 
 using namespace std;
-using namespace tr1;
 
 namespace Apex
 {
 	template<class SharedData = ofxEmptyData>
 	class ofxStateMachine
 	{
-		typedef shared_ptr< ofxState<SharedData> > statePtr;
-		typedef typename map<string, statePtr>::iterator stateIt;
+		typedef ofPtr< ofxState<SharedData> > StateRef;
+		typedef map<string, StateRef> StateMap;
+		typedef typename StateMap::iterator StateMapIter;
 
 	public:
 		
@@ -70,26 +63,31 @@ namespace Apex
 		}
 		
 		/** State Stuff **/ 
-		statePtr addState(ofxState<SharedData>* state)
+		StateRef addState(ofxState<SharedData>* state)
 		{
 			// we call setup here rather than use the setup event in case the state is added after
 			// setup event has occured
 			state->setSharedData(&sharedData);
 			state->setup();
 			ofAddListener(state->changeStateEvent, this, &ofxStateMachine::onChangeState);
-			statePtr ptr(state);
+			StateRef ptr(state);
 			states.insert(make_pair(state->getName(), ptr));
 			return ptr;
 		}
 		
-		SharedData& getSharedData()
+		inline SharedData& getSharedData()
 		{
 			return sharedData;
 		}
 		
-		map<string, statePtr> getStates() const
+		inline StateRef& getCurrentState()
 		{
-			return states;
+			return currentState;
+		}
+		
+		inline const string& getCurrentStateName() const
+		{
+			return currentStateName;
 		}
 		
 		void onChangeState(string& stateName)
@@ -101,8 +99,12 @@ namespace Apex
 		{
 			if (name == currentStateName) return;
 			
-			stateIt it = states.find(name);
-			if (it == states.end()) ofLog(OF_LOG_ERROR, "No state with name: %s.  Make sure you have added it to the state machine and you have set the state's name correctly.  Set the name by implementing \"const string getName()\" in your state class", name.c_str());
+			StateMapIter it = states.find(name);
+			
+			if (it == states.end())
+			{
+				ofLog(OF_LOG_ERROR, "No state with name: %s.  Make sure you have added it to the state machine and you have set the state's name correctly.  Set the name by implementing \"const string getName()\" in your state class", name.c_str());
+			}
 			else if (it->second != currentState)
 			{
 				if (currentState) currentState->stateExit();
@@ -111,11 +113,6 @@ namespace Apex
 				currentStateName = currentState->getName();
 				currentState->stateEnter();
 			}
-		}
-		
-		const string& getCurrentStateName() const
-		{
-			return currentState;
 		}
 		
 		/** App Event Stuff **/
@@ -193,10 +190,10 @@ namespace Apex
 #endif
 		
 	private:
-		statePtr currentState;
+		StateRef currentState;
 		string currentStateName;
 		
-		map<string, statePtr > states;
+		map<string, StateRef> states;
 		SharedData sharedData;
 	};
 }

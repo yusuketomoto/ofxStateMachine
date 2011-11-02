@@ -31,15 +31,7 @@
  */
 #pragma once
 
-#include "ofEvents.h"
-#ifdef TARGET_WIN32
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
 #include "ofMain.h"
-
-using namespace tr1;
 
 namespace Apex
 {
@@ -81,10 +73,12 @@ namespace Apex
 		ofEvent<string> changeStateEvent;
 	
 		virtual ~ofxState() {}
-		
+
+		inline SharedData& getSharedData() { return *sharedData; }
 		void setSharedData(SharedData* sharedData) { this->sharedData = sharedData; }
 		
-	protected:
+	private:
 		SharedData* sharedData;
+		
 	};	
 }
