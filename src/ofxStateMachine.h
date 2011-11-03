@@ -90,6 +90,20 @@ namespace Apex
 			return currentStateName;
 		}
 		
+		vector<string> getStateNames()
+        {
+            vector<string> result;
+			
+            StateMapIter it = states.begin();
+            while (it != states.end())
+            {
+                result.push_back((*it).first);
+                it++;
+            }
+			
+            return result;
+        }
+		
 		void onChangeState(string& stateName)
 		{
 			changeState(stateName);
