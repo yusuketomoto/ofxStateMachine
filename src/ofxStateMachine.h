@@ -72,6 +72,9 @@ namespace Apex
 			ofAddListener(state->changeStateEvent, this, &ofxStateMachine::onChangeState);
 			StateRef ptr(state);
 			states.insert(make_pair(state->getName(), ptr));
+			
+			stateNames.push_back(state->getName());
+			
 			return ptr;
 		}
 		
@@ -90,18 +93,9 @@ namespace Apex
 			return currentStateName;
 		}
 		
-		vector<string> getStateNames()
+		const vector<string>& getStateNames() const
         {
-            vector<string> result;
-			
-            StateMapIter it = states.begin();
-            while (it != states.end())
-            {
-                result.push_back((*it).first);
-                it++;
-            }
-			
-            return result;
+            return stateNames;
         }
 		
 		void onChangeState(string& stateName)
@@ -207,6 +201,7 @@ namespace Apex
 		StateRef currentState;
 		string currentStateName;
 		
+		vector<string> stateNames;
 		map<string, StateRef> states;
 		SharedData sharedData;
 	};
