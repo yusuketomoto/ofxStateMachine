@@ -98,6 +98,18 @@ namespace Apex
             return stateNames;
         }
 		
+		const bool hasState(const string &name) const
+		{
+			vector<string>::const_iterator it = stateNames.begin();
+			while (it != stateNames.end())
+			{
+				if ((*it) == name) return true;
+				it++;
+			}
+			
+			return false;
+		}
+		
 		void onChangeState(string& stateName)
 		{
 			changeState(stateName);
