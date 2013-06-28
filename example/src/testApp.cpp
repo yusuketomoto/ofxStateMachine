@@ -13,6 +13,8 @@ void testApp::setup(){
 	stateMachine.addState<RedState>();
 	stateMachine.addState<GreenState>();
 	stateMachine.changeState("green");
+	
+	stateMachine.enableEvents();
 }
 
 //--------------------------------------------------------------

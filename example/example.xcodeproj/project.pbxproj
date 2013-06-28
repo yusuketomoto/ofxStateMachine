@@ -63,7 +63,7 @@
 
 /* Begin PBXFileReference section */
 		15c53be5d971847ea22ed8f2cc814c45 /* GreenState.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = GreenState.h; path = src/GreenState.h; sourceTree = SOURCE_ROOT; };
-		185527997f0b73a279912db261e322ac /* ofxStateMachine.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxStateMachine.h; path = ../../../addons/ofxStateMachine/src/ofxStateMachine.h; sourceTree = SOURCE_ROOT; };
+		185527997f0b73a279912db261e322ac /* ofxStateMachine.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxStateMachine.h; path = ../../../addons/ofxStateMachine/src/ofxStateMachine.h; sourceTree = SOURCE_ROOT; };
 		58fdb2d8ba30f4d59e5187256e4f59a2 /* GreenState.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = GreenState.cpp; path = src/GreenState.cpp; sourceTree = SOURCE_ROOT; };
 		5cbe58018d23df0bb96016f5ebd110b0 /* RedState.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = RedState.cpp; path = src/RedState.cpp; sourceTree = SOURCE_ROOT; };
 		6f1b6c7968f600335013dee57cf82474 /* ofxState.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxState.h; path = ../../../addons/ofxStateMachine/src/ofxState.h; sourceTree = SOURCE_ROOT; };
